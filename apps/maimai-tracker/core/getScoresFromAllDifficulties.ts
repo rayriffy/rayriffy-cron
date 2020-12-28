@@ -63,30 +63,30 @@ export const getScoresFromAllDifficulties = async (browser: Browser) => {
         await scrollPageToBottom(page, 300, 200)
 
         // todo: parse data
-        const scores = await page.$$eval('body > div.wrapper.main_wrapper.t_c > *', elements => {
+        const prefetchedData = await page.$$eval('body > div.wrapper.main_wrapper.t_c > *', elements => {
           const songElements = elements.filter(element => element.querySelector('div.music_name_block') !== null && element.querySelector('div.music_name_block') !== undefined)
-
-          // determine it has score or not
-          return songElements.map(element => {
-            return {
-              song: element.querySelector('div.music_name_block')?.textContent ?? '',
-              playData: element.querySelector('div.music_score_block') === null || element.querySelector('div.music_score_block') === undefined ? null : {
-                clear: true,
-                sss: isPlaySSS(element),
-                fdx: isPlayFDX(element),
-                ap: isPlayAP(element),
-              }
-            }
-          })
+          
+          return songElements.map(element => ({
+            song: element.querySelector('div.music_name_block')?.textContent ?? '',
+            flagImages: element.querySelector('div.music_score_block') === null || element.querySelector('div.music_score_block') === undefined ? null : Array.from(element.querySelectorAll('img')).map(imageElement => imageElement.getAttribute('src'))
+          }))
         })
 
         await page.close()
 
-        return scores.map(score => ({
-          difficulty: difficulty.code,
-          version: version.text,
-          ...score,
-        }))
+        return prefetchedData.map(item => {
+          return {
+            song: item.song,
+            version: version.text,
+            difficulty: difficulty.code,
+            playData: item.flagImages === null ? null : {
+              clear: true,
+              sss: isPlaySSS(item.flagImages),
+              fdx: isPlayFDX(item.flagImages),
+              ap: isPlayAP(item.flagImages),
+            }
+          }
+        })
       } catch (e) {
         console.error(`fail:${difficulty.code}:${version.text}`)
         throw e
