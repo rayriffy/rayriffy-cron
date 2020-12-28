@@ -14,7 +14,7 @@ This script requires 3 environment variables **(PUT THOSE IN SECRETS!!!)**
   - `AIRTABLE_BASE_ID`: You base id
   - `AIRTABLE_TABLE_NAME`: Your table name in your base (Required to be URI Encoded first! [here's how](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI))
 
-You also reuired to create your own AirTable base as well, look into **Raw Data** demo to replicate all required fields.
+You also reuired to create your own AirTable base as well, look into **Raw Data** demo to replicate all required fields **(or you can just copy it)**.
 
 Demo
 ---
