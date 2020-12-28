@@ -1,5 +1,4 @@
 import axios from 'axios'
-import chalk from 'chalk'
 
 import { pRateLimit } from 'p-ratelimit'
 import { chunk, isEqual } from 'lodash'
@@ -7,7 +6,9 @@ import { chunk, isEqual } from 'lodash'
 import { formatAirtableRecord } from '../functions/formatAirtableRecord'
 import { locateMusic } from '../functions/locateMusic'
 import { getAllAirtableRecords } from '../functions/getAllAirtableRecords'
+
 import { reporter } from '../utils/reporter'
+import { chalk } from '../utils/chalk'
 
 import { Music } from '../@types/Music'
 

@@ -1,7 +1,6 @@
 import { flatMapDeep } from 'lodash'
 import Promise from 'bluebird'
 import { TaskQueue } from 'cwait'
-import chalk from 'chalk'
 
 import { Browser } from 'puppeteer'
 import scrollPageToBottom from 'puppeteer-autoscroll-down'
@@ -12,6 +11,7 @@ import { isPlayAP } from '../functions/isPlayAP'
 import { isPlayFC } from '../functions/isPlayFC'
 import { difficulties, Difficulty } from '../constants/difficulties'
 import { reporter } from '../utils/reporter'
+import { chalk } from '../utils/chalk'
 
 import { GameVersion } from '../@types/Music'
 

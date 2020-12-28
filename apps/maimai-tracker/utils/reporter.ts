@@ -1,4 +1,4 @@
-import chalk from 'chalk'
+import { chalk } from './chalk'
 
 export const reporter = {
   info: (msg?: string) => console.log(`${chalk.black.blue('info ')}  - ${msg}`),

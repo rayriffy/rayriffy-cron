@@ -1,11 +1,11 @@
 import { flatMap } from 'lodash'
 import Promise from 'bluebird'
-import chalk from 'chalk'
 
 import { Browser } from 'puppeteer'
 import scrollPageToBottom from 'puppeteer-autoscroll-down'
 
 import { reporter } from '../utils/reporter'
+import { chalk } from '../utils/chalk'
 
 import { GameGenre } from '../@types/Music'
 

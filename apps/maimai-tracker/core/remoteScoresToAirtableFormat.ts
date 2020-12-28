@@ -1,5 +1,4 @@
 import { flatMapDeep, groupBy } from 'lodash'
-import chalk from 'chalk'
 
 import { getDifficultyResult } from '../functions/getDifficultyResult'
 import { getSongGenre } from '../functions/getSongGenre'
@@ -7,8 +6,10 @@ import { getSongGenre } from '../functions/getSongGenre'
 import { Score } from './getScoresFromAllDifficulties'
 import { SongWithGenre } from './getSongsWithGenre'
 
-import { Music } from '../@types/Music'
 import { reporter } from '../utils/reporter'
+import { chalk } from '../utils/chalk'
+
+import { Music } from '../@types/Music'
 
 export const remoteScoresToAirtableFormat = (
   scoresFromAllDifficulties: Score[],
