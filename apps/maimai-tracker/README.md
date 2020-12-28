@@ -19,5 +19,5 @@ You also reuired to create your own AirTable base as well, look into **Raw Data*
 Demo
 ---
 
-[AirTable - Raw data](https://airtable.com/shrz0hbF0QJ506XG4)
-[AirTable - Groupped](https://airtable.com/shrLkeM86jKG1BwlX)
+-  [AirTable - Raw data](https://airtable.com/shrz0hbF0QJ506XG4)
+-  [AirTable - Groupped](https://airtable.com/shrLkeM86jKG1BwlX)
