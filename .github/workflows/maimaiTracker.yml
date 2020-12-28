@@ -1,0 +1,36 @@
+name: maimai Tracker
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '0 4,6,8,10,12,14 * * *'
+
+jobs:
+  fetch:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: 'Init: Summon NodeJS'
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - name: "Cache: node_modules"
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-node-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-${{ env.cache-name }}-
+            ${{ runner.OS }}-node-
+      - name: 'Init: Install dependencies'
+        run: yarn install
+      - name: 'Execute: Sync scores with AirTable'
+        run: yarn exec:maimaiTracker
+        env:
+          SEGA_ID: ${{ secrets.SEGA_ID }}
+          SEGA_PW: ${{ secrets.SEGA_PW }}
+          AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME }}
