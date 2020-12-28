@@ -24,8 +24,10 @@ export const syncWithAirtable = async (processedMusics: Music[]) => {
     },
   })
 
+  // todo: add more data while panigate until there's no offset
   const remoteRawRecords = await airtableInstance.get<{
     records: AirtableRecord<Partial<Music>>[]
+    offset?: string
   }>('/')
   const remoteRecords = remoteRawRecords.data.records.map(record =>
     formatAirtableRecord(record)
