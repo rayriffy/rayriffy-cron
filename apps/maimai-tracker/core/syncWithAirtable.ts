@@ -5,9 +5,9 @@ import { chunk, isEqual } from 'lodash'
 
 import { formatAirtableRecord } from '../functions/formatAirtableRecord'
 import { locateMusic } from '../functions/locateMusic'
+import { getAllAirtableRecords } from '../functions/getAllAirtableRecords'
 
 import { Music } from '../@types/Music'
-import { AirtableRecord } from '../@types/AirtableRecord'
 
 const { AIRTABLE_API_KEY, AIRTABLE_BASE_ID, AIRTABLE_TABLE_NAME } = process.env
 
@@ -24,12 +24,11 @@ export const syncWithAirtable = async (processedMusics: Music[]) => {
     },
   })
 
-  // todo: add more data while panigate until there's no offset
-  const remoteRawRecords = await airtableInstance.get<{
-    records: AirtableRecord<Partial<Music>>[]
-    offset?: string
-  }>('/')
-  const remoteRecords = remoteRawRecords.data.records.map(record =>
+  const remoteRawRecords = await getAllAirtableRecords(
+    airtableLimiter,
+    airtableInstance
+  )
+  const remoteRecords = remoteRawRecords.map(record =>
     formatAirtableRecord(record)
   )
 
