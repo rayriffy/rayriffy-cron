@@ -1,4 +1,4 @@
-import { flatMap, flatMapDeep } from 'lodash'
+import { flatMapDeep } from 'lodash'
 import Promise from 'bluebird'
 import { TaskQueue } from 'cwait'
 
@@ -70,7 +70,6 @@ export const getScoresFromAllDifficulties = async (browser: Browser) => {
           return songElements.map(element => {
             return {
               song: element.querySelector('div.music_name_block')?.textContent ?? '',
-              version: version.text,
               playData: element.querySelector('div.music_score_block') === null || element.querySelector('div.music_score_block') === undefined ? null : {
                 clear: true,
                 sss: isPlaySSS(element),
@@ -85,6 +84,7 @@ export const getScoresFromAllDifficulties = async (browser: Browser) => {
 
         return scores.map(score => ({
           difficulty: difficulty.code,
+          version: version.text,
           ...score,
         }))
       } catch (e) {
