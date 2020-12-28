@@ -1,6 +1,7 @@
 import { flatMapDeep } from 'lodash'
 import Promise from 'bluebird'
 import { TaskQueue } from 'cwait'
+import chalk from 'chalk'
 
 import { Browser } from 'puppeteer'
 import scrollPageToBottom from 'puppeteer-autoscroll-down'
@@ -10,8 +11,9 @@ import { isPlayFDX } from '../functions/isPlayFDX'
 import { isPlayAP } from '../functions/isPlayAP'
 import { isPlayFC } from '../functions/isPlayFC'
 import { difficulties, Difficulty } from '../constants/difficulties'
+import { reporter } from '../utils/reporter'
 
-import { GameGenre, GameVersion } from '../@types/Music'
+import { GameVersion } from '../@types/Music'
 
 export interface Score {
   song: string
@@ -34,7 +36,8 @@ interface InternalFunctionVersion {
 export const getScoresFromAllDifficulties = async (browser: Browser) => {
   const page = await browser.newPage()
 
-  console.log('navigate:version')
+  reporter.info('Listing all maimai versions')
+
   await page.goto('https://maimaidx-eng.com/maimai-mobile/record/musicVersion/')
   await page.waitForSelector('select[name=version]')
 
@@ -50,6 +53,8 @@ export const getScoresFromAllDifficulties = async (browser: Browser) => {
       }))
     }
   )
+
+  reporter.done(`Listed ${chalk.green(versions.length)} version!`)
 
   // get all scores (limit to 1 version at a time)
   const allPossibleCombination = flatMapDeep(
@@ -68,7 +73,11 @@ export const getScoresFromAllDifficulties = async (browser: Browser) => {
         Score[],
         { version: InternalFunctionVersion; difficulty: Difficulty }
       >(async ({ version, difficulty }) => {
-        console.log(`process:${difficulty.code}:${version.text}`)
+        reporter.info(
+          `Reading scores from ${chalk.blue(version.text)} with ${chalk.blue(
+            difficulty.name
+          )} difficulty`
+        )
 
         try {
           const page = await browser.newPage()
@@ -127,7 +136,11 @@ export const getScoresFromAllDifficulties = async (browser: Browser) => {
             }
           })
         } catch (e) {
-          console.error(`fail:${difficulty.code}:${version.text}`)
+          reporter.fail(
+            `Unable to obtain scores from ${chalk.red(
+              version.text
+            )} with ${chalk.red(difficulty.name)} difficulty`
+          )
           throw e
         }
       })
@@ -135,6 +148,10 @@ export const getScoresFromAllDifficulties = async (browser: Browser) => {
   ).then(o => flatMapDeep(o))
 
   await page.close()
+
+  reporter.done(
+    `Obtained ${chalk.green(scoresFromAllDifficulties.length)} scores!`
+  )
 
   return scoresFromAllDifficulties
 }

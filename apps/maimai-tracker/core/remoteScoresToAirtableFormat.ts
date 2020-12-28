@@ -1,4 +1,5 @@
 import { flatMapDeep, groupBy } from 'lodash'
+import chalk from 'chalk'
 
 import { getDifficultyResult } from '../functions/getDifficultyResult'
 import { getSongGenre } from '../functions/getSongGenre'
@@ -7,11 +8,14 @@ import { Score } from './getScoresFromAllDifficulties'
 import { SongWithGenre } from './getSongsWithGenre'
 
 import { Music } from '../@types/Music'
+import { reporter } from '../utils/reporter'
 
 export const remoteScoresToAirtableFormat = (
   scoresFromAllDifficulties: Score[],
   songsWithGenre: SongWithGenre[]
 ): Music[] => {
+  reporter.info('Processing data...')
+
   const grouppedScoreByName = groupBy(
     scoresFromAllDifficulties,
     item => item.song
@@ -38,6 +42,12 @@ export const remoteScoresToAirtableFormat = (
         } as Music
       })
     })
+  )
+
+  reporter.done(
+    `Processed! Data has been groupped into ${chalk.green(
+      processedData.length
+    )} records`
   )
 
   return processedData

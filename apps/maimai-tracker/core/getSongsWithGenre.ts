@@ -1,8 +1,11 @@
 import { flatMap } from 'lodash'
 import Promise from 'bluebird'
+import chalk from 'chalk'
 
 import { Browser } from 'puppeteer'
 import scrollPageToBottom from 'puppeteer-autoscroll-down'
+
+import { reporter } from '../utils/reporter'
 
 import { GameGenre } from '../@types/Music'
 
@@ -14,14 +17,14 @@ export interface SongWithGenre {
 export const getSongsWithGenre = async (browser: Browser) => {
   const page = await browser.newPage()
 
+  reporter.info('Listing all possible genres')
+
   // navigate to song score
-  console.log('navgate:score')
   await page.goto('https://maimaidx-eng.com/maimai-mobile/record/musicGenre')
 
   // wait for select option avil and then query
   await page.waitForSelector('select[name=genre]')
 
-  console.log('process:genres')
   // get all options
   const genres = await page.$$eval<{ text: GameGenre; value: string }[]>(
     'select[name=genre] > option',
@@ -38,12 +41,13 @@ export const getSongsWithGenre = async (browser: Browser) => {
         .filter(item => item.text !== 'All genre') as any
     }
   )
+  reporter.done(`Listed ${chalk.green(genres.length)} genres!`)
 
   // get song per page (only do one at a time)
   const songsWithGenre: SongWithGenre[] = await Promise.map(
     genres,
     async genre => {
-      console.log(`songsWithGenre:${genre.text}`)
+      reporter.info(`Reading charts from ${chalk.blue(genre.text)} genre`)
 
       const page = await browser.newPage()
 
@@ -86,6 +90,8 @@ export const getSongsWithGenre = async (browser: Browser) => {
   ).then(o => flatMap(o))
 
   await page.close()
+
+  reporter.done(`Obtained ${chalk.green(songsWithGenre.length)} charts!`)
 
   return songsWithGenre
 }

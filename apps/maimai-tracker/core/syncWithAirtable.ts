@@ -1,4 +1,5 @@
 import axios from 'axios'
+import chalk from 'chalk'
 
 import { pRateLimit } from 'p-ratelimit'
 import { chunk, isEqual } from 'lodash'
@@ -6,6 +7,7 @@ import { chunk, isEqual } from 'lodash'
 import { formatAirtableRecord } from '../functions/formatAirtableRecord'
 import { locateMusic } from '../functions/locateMusic'
 import { getAllAirtableRecords } from '../functions/getAllAirtableRecords'
+import { reporter } from '../utils/reporter'
 
 import { Music } from '../@types/Music'
 
@@ -24,6 +26,7 @@ export const syncWithAirtable = async (processedMusics: Music[]) => {
     },
   })
 
+  reporter.info('Reading records from remote')
   const remoteRawRecords = await getAllAirtableRecords(
     airtableLimiter,
     airtableInstance
@@ -31,6 +34,9 @@ export const syncWithAirtable = async (processedMusics: Music[]) => {
   const remoteRecords = remoteRawRecords.map(record =>
     formatAirtableRecord(record)
   )
+
+  reporter.done(`Retrived ${chalk.green(remoteRawRecords.length)} records!`)
+  reporter.info('Diffing data...')
 
   // clean data for removed music (in case of version upgrade)
   // condition met when data in remote present but not in processed data
@@ -100,7 +106,11 @@ export const syncWithAirtable = async (processedMusics: Music[]) => {
   try {
     // remove api
     if (recordsPendingForRemoval.length !== 0) {
-      console.log(`airtable:delete:${recordsPendingForRemoval.length}`)
+      reporter.info(
+        `Removing ${chalk.blue(
+          recordsPendingForRemoval.length
+        )} records from remote`
+      )
       const recordChunks = chunk(recordsPendingForRemoval, 10)
 
       await Promise.all(
@@ -118,7 +128,11 @@ export const syncWithAirtable = async (processedMusics: Music[]) => {
 
     // update api
     if (recordsPendingToUpdate.length !== 0) {
-      console.log(`airtable:update:${recordsPendingToUpdate.length}`)
+      reporter.info(
+        `Updating ${chalk.blue(
+          recordsPendingToUpdate.length
+        )} records on remote`
+      )
       const recordChunks = chunk(recordsPendingToUpdate, 10)
 
       await Promise.all(
@@ -134,7 +148,9 @@ export const syncWithAirtable = async (processedMusics: Music[]) => {
 
     // create api
     if (recordsPendingToAdd.length !== 0) {
-      console.log(`airtable:add:${recordsPendingToAdd.length}`)
+      reporter.info(
+        `Adding ${chalk.blue(recordsPendingToAdd.length)} records to remote`
+      )
       const recordChunks = chunk(recordsPendingToAdd, 10)
 
       await Promise.all(
@@ -147,8 +163,9 @@ export const syncWithAirtable = async (processedMusics: Music[]) => {
         })
       )
     }
+
+    reporter.done('Remote table synced!')
   } catch (e) {
-    console.log(e.response.data)
     throw e
   }
 }
