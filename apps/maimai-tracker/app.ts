@@ -21,6 +21,8 @@ import { syncWithAirtable } from './core/syncWithAirtable'
     getScoresFromAllDifficulties(browser),
   ])
 
+  await browser.close()
+
   // process and sync with airtable
   await syncWithAirtable(
     remoteScoresToAirtableFormat(scoresFromAllDifficulties, songsWithGenre)

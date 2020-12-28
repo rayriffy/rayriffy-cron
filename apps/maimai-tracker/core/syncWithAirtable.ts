@@ -9,7 +9,7 @@ import { locateMusic } from '../functions/locateMusic'
 import { Music } from '../@types/Music'
 import { AirtableRecord } from '../@types/AirtableRecord'
 
-const { AIRTABLE_API_KEY } = process.env
+const { AIRTABLE_API_KEY, AIRTABLE_BASE_ID, AIRTABLE_TABLE_NAME } = process.env
 
 export const syncWithAirtable = async (processedMusics: Music[]) => {
   // get all airtable records
@@ -18,7 +18,7 @@ export const syncWithAirtable = async (processedMusics: Music[]) => {
     rate: 5,
   })
   const airtableInstance = axios.create({
-    baseURL: 'https://api.airtable.com/v0/appbz5pBuSREdpNIz/Progress%20tracker',
+    baseURL: `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`,
     headers: {
       Authorization: `Bearer ${AIRTABLE_API_KEY}`,
     },
