@@ -1,6 +1,27 @@
-export type GameVersion = "maimai" | "maimai PLUS" | "GreeN" | "GreeN PLUS" | "ORANGE" | "ORANGE PLUS" | "PiNK" | "PiNK PLUS" | "MURASAKi" | "MURASAKi PLUS" | "MiLK" | "MiLK PLUS" | "FiNALE" | "maimaiでらっくす" | "maimaiでらっくす PLUS"
+export type GameVersion =
+  | 'maimai'
+  | 'maimai PLUS'
+  | 'GreeN'
+  | 'GreeN PLUS'
+  | 'ORANGE'
+  | 'ORANGE PLUS'
+  | 'PiNK'
+  | 'PiNK PLUS'
+  | 'MURASAKi'
+  | 'MURASAKi PLUS'
+  | 'MiLK'
+  | 'MiLK PLUS'
+  | 'FiNALE'
+  | 'maimaiでらっくす'
+  | 'maimaiでらっくす PLUS'
 
-export type GameGenre = "POPS & ANIME" | "niconico ＆ VOCALOID™" | "東方Project" | "GAME＆VARIETY" | "maimai" | "オンゲキ＆CHUNITHM"
+export type GameGenre =
+  | 'POPS & ANIME'
+  | 'niconico ＆ VOCALOID™'
+  | '東方Project'
+  | 'GAME＆VARIETY'
+  | 'maimai'
+  | 'オンゲキ＆CHUNITHM'
 
 export interface Music {
   Name: string

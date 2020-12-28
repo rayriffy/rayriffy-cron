@@ -4,7 +4,11 @@ export const isPlaySSS = (imageFlags: (string | null)[]): boolean => {
     'https://maimaidx-eng.com/maimai-mobile/img/music_icon_sss.png',
   ]
 
-  return !(imageFlags.map(flag => {
-    return acceptUrl.includes(flag ?? '')
-  }).filter(o => o === true).length === 0)
+  return !(
+    imageFlags
+      .map(flag => {
+        return acceptUrl.includes(flag ?? '')
+      })
+      .filter(o => o === true).length === 0
+  )
 }
