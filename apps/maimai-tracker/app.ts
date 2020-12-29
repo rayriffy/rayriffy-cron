@@ -1,4 +1,6 @@
+import fs from 'fs'
 import puppeteer from 'puppeteer'
+import Promise from 'bluebird'
 
 import { reporter } from './utils/reporter'
 
@@ -32,7 +34,20 @@ import { syncWithAirtable } from './core/syncWithAirtable'
       remoteScoresToAirtableFormat(scoresFromAllDifficulties, songsWithGenre)
     )
   } catch (e) {
-    reporter.fail('crash')
+    reporter.fail('crash!')
+
+    const pages = await browser.pages()
+
+    await Promise.map(pages, async (page, i) => {
+      const screenshot = await page.screenshot({
+        type: 'jpeg',
+        fullPage: true,
+      })
+
+      fs.mkdirSync('dist')
+      fs.writeFileSync(`dist/page-${i}.jpg`, screenshot)
+    })
+
     process.exit(1)
   } finally {
     await browser.close()
