@@ -40,6 +40,7 @@ import { syncWithAirtable } from './core/syncWithAirtable'
 
     fs.mkdirSync('dist')
 
+    reporter.info('Capturing screenshots of all pages')
     await Promise.map(pages, async (page, i) => {
       const screenshot = await page.screenshot({
         type: 'jpeg',
@@ -47,6 +48,9 @@ import { syncWithAirtable } from './core/syncWithAirtable'
       })
       fs.writeFileSync(`dist/page-${i}.jpg`, screenshot)
     })
+
+    reporter.info('Printing error stack')
+    console.error(e)
 
     process.exit(1)
   } finally {
