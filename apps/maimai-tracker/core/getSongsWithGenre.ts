@@ -50,6 +50,9 @@ export const getSongsWithGenre = async (
         .filter(item => item.text !== 'All genre') as any
     }
   )
+
+  await page.close()
+
   reporter.done(`Listed ${chalk.green(genres.length)} genres!`)
 
   // get song per page (only do one at a time)
@@ -97,8 +100,6 @@ export const getSongsWithGenre = async (
       }))
     })
   ).then(o => flatMap(o))
-
-  await page.close()
 
   reporter.done(`Obtained ${chalk.green(songsWithGenre.length)} charts!`)
 

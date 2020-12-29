@@ -59,6 +59,8 @@ export const getScoresFromAllDifficulties = async (
     }
   )
 
+  await page.close()
+
   reporter.done(`Listed ${chalk.green(versions.length)} version!`)
 
   // get all scores (limit to 1 version at a time)
@@ -84,9 +86,9 @@ export const getScoresFromAllDifficulties = async (
           )} difficulty`
         )
 
-        try {
-          const page = await browser.newPage()
+        const page = await browser.newPage()
 
+        try {
           await page.goto(
             `https://maimaidx-eng.com/maimai-mobile/record/musicVersion/search/?version=${version.value}&diff=${difficulty.id}`
           )
@@ -120,8 +122,6 @@ export const getScoresFromAllDifficulties = async (
               }))
             }
           )
-
-          await page.close()
 
           return prefetchedData.map(item => {
             return {
@@ -167,15 +167,13 @@ export const getScoresFromAllDifficulties = async (
             )} with ${chalk.blue(difficulty.name)} difficulty`
           )
 
-          await page.close()
-
           throw e
+        } finally {
+          await page.close()
         }
       })
     )
   ).then(o => flatMapDeep(o))
-
-  await page.close()
 
   reporter.done(
     `Obtained ${chalk.green(scoresFromAllDifficulties.length)} scores!`

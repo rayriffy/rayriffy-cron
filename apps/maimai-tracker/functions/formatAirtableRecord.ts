@@ -46,11 +46,13 @@ export const formatAirtableRecord = (
     'REM - FDX': false,
   }
 
-  return {
+  const result = {
     ...record,
     fields: {
       ...defaultMusic,
       ...record.fields,
     },
   }
+
+  return result
 }
