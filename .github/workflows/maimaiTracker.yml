@@ -28,7 +28,7 @@ jobs:
       - name: 'Init: Install dependencies'
         run: yarn install
       - name: 'Execute: Sync scores with AirTable'
-        run: yarn exec:maimaiTracker
+        run: node --max_old_space_size=7168 -r ts-node/register apps/maimai-tracker/app.ts
         env:
           SEGA_ID: ${{ secrets.SEGA_ID }}
           SEGA_PW: ${{ secrets.SEGA_PW }}
