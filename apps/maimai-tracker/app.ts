@@ -21,7 +21,7 @@ import { syncWithAirtable } from './core/syncWithAirtable'
       height: 720,
     },
   })
-  const browserQueue = new TaskQueue(Promise, 12)
+  const browserQueue = new TaskQueue(Promise, 10)
 
   try {
     // fetch data from you, SEGA_ID and SEGA_PW required
