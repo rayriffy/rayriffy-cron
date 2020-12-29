@@ -38,13 +38,13 @@ import { syncWithAirtable } from './core/syncWithAirtable'
 
     const pages = await browser.pages()
 
+    fs.mkdirSync('dist')
+
     await Promise.map(pages, async (page, i) => {
       const screenshot = await page.screenshot({
         type: 'jpeg',
         fullPage: true,
       })
-
-      fs.mkdirSync('dist')
       fs.writeFileSync(`dist/page-${i}.jpg`, screenshot)
     })
 
