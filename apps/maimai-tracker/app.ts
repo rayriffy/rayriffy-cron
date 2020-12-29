@@ -30,10 +30,14 @@ import { syncWithAirtable } from './core/syncWithAirtable'
       getScoresFromAllDifficulties(browser, browserQueue),
     ])
 
-    // process and sync with airtable
-    await syncWithAirtable(
-      remoteScoresToAirtableFormat(scoresFromAllDifficulties, songsWithGenre)
+    // process remote data into airtable fields
+    const processedScores = remoteScoresToAirtableFormat(
+      scoresFromAllDifficulties,
+      songsWithGenre
     )
+
+    // sync with airtable
+    await syncWithAirtable(processedScores)
   } catch (e) {
     reporter.fail('crash!')
 

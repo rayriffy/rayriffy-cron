@@ -9,7 +9,7 @@ const { SEGA_ID, SEGA_PW } = process.env
 const wait = (time: number) => new Promise(res => setTimeout(() => res(), time))
 
 export const signIntoSEGA = async (browser: Browser) => {
-  reporter.info('Signing maimai NET')
+  reporter.info('Signing into maimai NET')
 
   // entrypoint
   const page = await browser.newPage()

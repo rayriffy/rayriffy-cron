@@ -1,6 +1,8 @@
 import { flatMap, get, isEqual } from 'lodash'
 
 import { difficulties } from '../constants/difficulties'
+import { formatAirtableRecord } from './formatAirtableRecord'
+import { formatMusic } from './formatMusic'
 
 import { Music } from '../@types/Music'
 
@@ -19,12 +21,21 @@ export const isRequiredToUpdate = (
   // if false included in compare, means value not match and need to be updated
   const compareResult = allKeysNeedToCompare
     .map(key => {
-      const sourceValue = get(sourceMusic, key)
-      const compareValue = get(compareWithMusic, key)
+      const sourceValue = get(formatMusic(sourceMusic), key)
+      const compareValue = get(formatMusic(compareWithMusic), key)
 
-      return sourceValue === compareValue
+      const isDiff = sourceValue !== compareValue
+
+      // if (isDiff)
+      //   console.log(key ,' :: ', sourceValue, `<->`, compareValue)
+
+      if (isDiff) {
+        return key
+      } else {
+        return undefined
+      }
     })
-    .includes(false)
+    .filter(o => o !== undefined)
 
-  return compareResult
+  return compareResult.length !== 0
 }

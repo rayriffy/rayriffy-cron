@@ -33,11 +33,13 @@ export const syncWithAirtable = async (processedMusics: Music[]) => {
     airtableLimiter,
     airtableInstance
   )
+
   const remoteRecords = remoteRawRecords.map(record =>
     formatAirtableRecord(record)
   )
 
   reporter.done(`Retrived ${chalk.green(remoteRawRecords.length)} records!`)
+
   reporter.info('Diffing data...')
 
   // clean data for removed music (in case of version upgrade)
