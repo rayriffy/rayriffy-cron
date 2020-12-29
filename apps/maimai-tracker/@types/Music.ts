@@ -29,6 +29,7 @@ export interface Music {
   Genre: GameGenre
 
   // Easy
+  'EAS - Progress'?: number
   'EAS - CL': boolean
   'EAS - 100%': boolean
   'EAS - FC': boolean
@@ -36,6 +37,7 @@ export interface Music {
   'EAS - FDX': boolean
 
   // Advanced
+  'ADV - Progress'?: number
   'ADV - CL': boolean
   'ADV - 100%': boolean
   'ADV - FC': boolean
@@ -43,6 +45,7 @@ export interface Music {
   'ADV - FDX': boolean
 
   // Expert
+  'EXP - Progress'?: number
   'EXP - CL': boolean
   'EXP - FC': boolean
   'EXP - 100%': boolean
@@ -50,6 +53,7 @@ export interface Music {
   'EXP - FDX': boolean
 
   // Master
+  'MAS - Progress'?: number
   'MAS - CL': boolean
   'MAS - FC': boolean
   'MAS - 100%': boolean
@@ -58,6 +62,7 @@ export interface Music {
 
   // Remaster
   isRemaster: boolean
+  'REM - Progress'?: number
   'REM - CL': boolean
   'REM - FC': boolean
   'REM - 100%': boolean

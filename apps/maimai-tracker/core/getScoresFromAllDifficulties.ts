@@ -23,6 +23,7 @@ export interface Score {
   difficulty: Difficulty['code']
   version: GameVersion
   playData: {
+    progress: number
     clear: boolean
     sss: boolean
     fdx: boolean
@@ -110,18 +111,33 @@ export const getScoresFromAllDifficulties = async (
                   element.querySelector('div.music_name_block') !== undefined
               )
 
-              return songElements.map(element => ({
-                song:
-                  element.querySelector('div.music_name_block')?.textContent ??
-                  '',
-                flagImages:
-                  element.querySelector('div.music_score_block') === null ||
-                  element.querySelector('div.music_score_block') === undefined
-                    ? null
-                    : Array.from(
-                        element.querySelectorAll('img')
-                      ).map(imageElement => imageElement.getAttribute('src')),
-              }))
+              return songElements.map(element => {
+                const progress = element.querySelector(
+                  'div.music_score_block.w_120'
+                )?.textContent
+
+                return {
+                  song:
+                    element.querySelector('div.music_name_block')
+                      ?.textContent ?? '',
+                  record:
+                    element.querySelector('div.music_score_block') === null ||
+                    element.querySelector('div.music_score_block') === undefined
+                      ? null
+                      : {
+                          flagImages: Array.from(
+                            element.querySelectorAll('img')
+                          ).map(imageElement =>
+                            imageElement.getAttribute('src')
+                          ),
+                          progress: Number(
+                            ((progress ?? '0.0000%').match(/(\d+.\d+)%/) ?? [
+                              '0.0000%',
+                            ])[1]
+                          ),
+                        },
+                }
+              })
             }
           )
 
@@ -131,14 +147,15 @@ export const getScoresFromAllDifficulties = async (
               version: version.text,
               difficulty: difficulty.code,
               playData:
-                item.flagImages === null
+                item.record === null
                   ? null
                   : {
                       clear: true,
-                      sss: isPlaySSS(item.flagImages),
-                      fdx: isPlayFDX(item.flagImages),
-                      ap: isPlayAP(item.flagImages),
-                      fc: isPlayFC(item.flagImages),
+                      progress: item.record.progress,
+                      sss: isPlaySSS(item.record.flagImages),
+                      fdx: isPlayFDX(item.record.flagImages),
+                      ap: isPlayAP(item.record.flagImages),
+                      fc: isPlayFC(item.record.flagImages),
                     },
             }
           })

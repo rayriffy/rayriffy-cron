@@ -22,6 +22,7 @@ export const getDifficultyResult = (
       ])
     } else {
       return fromEntries([
+        [`${targetDifficulty} - Progress`, score.playData.progress],
         [`${targetDifficulty} - CL`, true],
         [`${targetDifficulty} - 100%`, score.playData.sss],
         [`${targetDifficulty} - FC`, score.playData.fc],
