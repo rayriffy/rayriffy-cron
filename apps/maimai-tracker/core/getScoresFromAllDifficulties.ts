@@ -1,3 +1,4 @@
+import fs from 'fs'
 import { flatMapDeep } from 'lodash'
 import Promise from 'bluebird'
 import { TaskQueue } from 'cwait'
@@ -14,6 +15,7 @@ import { reporter } from '../utils/reporter'
 import { chalk } from '../utils/chalk'
 
 import { GameVersion } from '../@types/Music'
+import { fstat } from 'fs'
 
 export interface Score {
   song: string
@@ -116,8 +118,6 @@ export const getScoresFromAllDifficulties = async (browser: Browser) => {
             }
           )
 
-          await page.close()
-
           return prefetchedData.map(item => {
             return {
               song: item.song,
@@ -141,7 +141,30 @@ export const getScoresFromAllDifficulties = async (browser: Browser) => {
               version.text
             )} with ${chalk.red(difficulty.name)} difficulty`
           )
+
+          const screenshot = await page.screenshot({
+            type: 'jpeg',
+            fullPage: true,
+          })
+
+          if (!fs.existsSync('dist')) {
+            fs.mkdirSync('dist')
+          }
+
+          fs.writeFileSync(
+            `dist/version-${version.text}-${difficulty.name}.jpg`,
+            screenshot
+          )
+
+          reporter.info(
+            `Screenshot has been captured for ${chalk.blue(
+              version.text
+            )} with ${chalk.blue(difficulty.name)} difficulty`
+          )
+
           throw e
+        } finally {
+          await page.close()
         }
       })
     )
