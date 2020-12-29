@@ -6,6 +6,7 @@ import { chunk, isEqual } from 'lodash'
 import { formatAirtableRecord } from '../functions/formatAirtableRecord'
 import { locateMusic } from '../functions/locateMusic'
 import { getAllAirtableRecords } from '../functions/getAllAirtableRecords'
+import { isRequiredToUpdate } from '../functions/isRequiredToUpdate'
 
 import { reporter } from '../utils/reporter'
 import { chalk } from '../utils/chalk'
@@ -92,7 +93,7 @@ export const syncWithAirtable = async (processedMusics: Music[]) => {
         return undefined
       } else {
         // if object change, then request for update
-        if (isEqual(remoteRecord.fields, targetProcessedMusic) === false) {
+        if (isRequiredToUpdate(remoteRecord.fields, targetProcessedMusic)) {
           return {
             id: remoteRecord.id,
             fields: targetProcessedMusic,
