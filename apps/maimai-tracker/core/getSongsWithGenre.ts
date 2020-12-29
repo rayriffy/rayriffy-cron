@@ -73,7 +73,7 @@ export const getSongsWithGenre = async (
         'body > div.wrapper.main_wrapper.t_c > div.screw_block'
       )
 
-      await scrollPageToBottom(page, 300, 200)
+      await scrollPageToBottom(page, 600, 60)
 
       // featch all songs
       const songs = await page.$$eval(

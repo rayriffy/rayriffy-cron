@@ -97,7 +97,7 @@ export const getScoresFromAllDifficulties = async (
           )
           await page.waitForSelector('div.main_wrapper')
 
-          await scrollPageToBottom(page, 400, 100)
+          await scrollPageToBottom(page, 600, 60)
 
           // todo: parse data
           const prefetchedData = await page.$$eval(
