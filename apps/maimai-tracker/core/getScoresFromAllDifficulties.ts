@@ -121,6 +121,8 @@ export const getScoresFromAllDifficulties = async (
             }
           )
 
+          await page.close()
+
           return prefetchedData.map(item => {
             return {
               song: item.song,
@@ -165,9 +167,9 @@ export const getScoresFromAllDifficulties = async (
             )} with ${chalk.blue(difficulty.name)} difficulty`
           )
 
-          throw e
-        } finally {
           await page.close()
+
+          throw e
         }
       })
     )
