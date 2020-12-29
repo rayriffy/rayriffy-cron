@@ -1,5 +1,6 @@
 import { flatMap } from 'lodash'
 import Promise from 'bluebird'
+import { TaskQueue } from 'cwait'
 
 import { Browser } from 'puppeteer'
 import scrollPageToBottom from 'puppeteer-autoscroll-down'
@@ -14,7 +15,15 @@ export interface SongWithGenre {
   genre: GameGenre
 }
 
-export const getSongsWithGenre = async (browser: Browser) => {
+interface GenreOption {
+  text: GameGenre
+  value: string
+}
+
+export const getSongsWithGenre = async (
+  browser: Browser,
+  browserQueue: TaskQueue<typeof Promise>
+) => {
   const page = await browser.newPage()
 
   reporter.info('Listing all possible genres')
@@ -26,7 +35,7 @@ export const getSongsWithGenre = async (browser: Browser) => {
   await page.waitForSelector('select[name=genre]')
 
   // get all options
-  const genres = await page.$$eval<{ text: GameGenre; value: string }[]>(
+  const genres = await page.$$eval<GenreOption[]>(
     'select[name=genre] > option',
     elements => {
       const typedElement = elements as HTMLOptionElement[]
@@ -46,7 +55,7 @@ export const getSongsWithGenre = async (browser: Browser) => {
   // get song per page (only do one at a time)
   const songsWithGenre: SongWithGenre[] = await Promise.map(
     genres,
-    async genre => {
+    browserQueue.wrap<SongWithGenre[], GenreOption>(async genre => {
       reporter.info(`Reading charts from ${chalk.blue(genre.text)} genre`)
 
       const page = await browser.newPage()
@@ -86,7 +95,7 @@ export const getSongsWithGenre = async (browser: Browser) => {
         name: song,
         genre: genre.text,
       }))
-    }
+    })
   ).then(o => flatMap(o))
 
   await page.close()

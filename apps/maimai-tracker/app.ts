@@ -1,6 +1,7 @@
 import fs from 'fs'
 import puppeteer from 'puppeteer'
 import Promise from 'bluebird'
+import { TaskQueue } from 'cwait'
 
 import { reporter } from './utils/reporter'
 
@@ -20,13 +21,14 @@ import { syncWithAirtable } from './core/syncWithAirtable'
       height: 720,
     },
   })
+  const browserQueue = new TaskQueue(Promise, 8)
 
   try {
     // fetch data from you, SEGA_ID and SEGA_PW required
     await signIntoSEGA(browser)
     const [songsWithGenre, scoresFromAllDifficulties] = await Promise.all([
-      getSongsWithGenre(browser),
-      getScoresFromAllDifficulties(browser),
+      getSongsWithGenre(browser, browserQueue),
+      getScoresFromAllDifficulties(browser, browserQueue),
     ])
 
     // process and sync with airtable

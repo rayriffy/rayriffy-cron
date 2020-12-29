@@ -35,7 +35,10 @@ interface InternalFunctionVersion {
   value: string
 }
 
-export const getScoresFromAllDifficulties = async (browser: Browser) => {
+export const getScoresFromAllDifficulties = async (
+  browser: Browser,
+  browserQueue: TaskQueue<typeof Promise>
+) => {
   const page = await browser.newPage()
 
   reporter.info('Listing all maimai versions')
@@ -68,10 +71,10 @@ export const getScoresFromAllDifficulties = async (browser: Browser) => {
     )
   )
 
-  const queue = new TaskQueue(Promise, 8)
+  // const queue = new TaskQueue(Promise, 8)
   const scoresFromAllDifficulties = await Promise.all(
     allPossibleCombination.map(
-      queue.wrap<
+      browserQueue.wrap<
         Score[],
         { version: InternalFunctionVersion; difficulty: Difficulty }
       >(async ({ version, difficulty }) => {
