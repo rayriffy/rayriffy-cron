@@ -4,18 +4,19 @@ import Promise from 'bluebird'
 import { TaskQueue } from 'cwait'
 
 import { Browser } from 'puppeteer'
-import scrollPageToBottom from 'puppeteer-autoscroll-down'
 
 import { isPlaySSS } from '../functions/isPlaySSS'
 import { isPlayFDX } from '../functions/isPlayFDX'
 import { isPlayAP } from '../functions/isPlayAP'
 import { isPlayFC } from '../functions/isPlayFC'
+
 import { difficulties, Difficulty } from '../constants/difficulties'
+
 import { reporter } from '../utils/reporter'
 import { chalk } from '../utils/chalk'
+import { scroller } from '../utils/scroller'
 
 import { GameVersion } from '../@types/Music'
-import { fstat } from 'fs'
 
 export interface Score {
   song: string
@@ -97,7 +98,7 @@ export const getScoresFromAllDifficulties = async (
           )
           await page.waitForSelector('div.main_wrapper')
 
-          await scrollPageToBottom(page, 600, 60)
+          await scroller(page)
 
           // todo: parse data
           const prefetchedData = await page.$$eval(

@@ -3,10 +3,10 @@ import Promise from 'bluebird'
 import { TaskQueue } from 'cwait'
 
 import { Browser } from 'puppeteer'
-import scrollPageToBottom from 'puppeteer-autoscroll-down'
 
 import { reporter } from '../utils/reporter'
 import { chalk } from '../utils/chalk'
+import { scroller } from '../utils/scroller'
 
 import { GameGenre } from '../@types/Music'
 
@@ -73,7 +73,7 @@ export const getSongsWithGenre = async (
         'body > div.wrapper.main_wrapper.t_c > div.screw_block'
       )
 
-      await scrollPageToBottom(page, 600, 60)
+      await scroller(page)
 
       // featch all songs
       const songs = await page.$$eval(
