@@ -166,6 +166,14 @@ export const syncWithAirtable = async (processedMusics: Music[]) => {
       )
     }
 
+    if (
+      recordsPendingForRemoval.length === 0 &&
+      recordsPendingToAdd.length === 0 &&
+      recordsPendingToUpdate.length === 0
+    ) {
+      reporter.info('Already up-to-date!')
+    }
+
     reporter.done('Remote table synced!')
   } catch (e) {
     throw e
