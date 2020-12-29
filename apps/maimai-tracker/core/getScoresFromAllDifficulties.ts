@@ -92,13 +92,13 @@ export const getScoresFromAllDifficulties = async (
           await page.goto(
             `https://maimaidx-eng.com/maimai-mobile/record/musicVersion/search/?version=${version.value}&diff=${difficulty.id}`
           )
-          await page.waitForSelector('footer_marquee')
+          await page.waitForSelector('div.main_wrapper.t_c')
 
           await scrollPageToBottom(page, 300, 200)
 
           // todo: parse data
           const prefetchedData = await page.$$eval(
-            'body > div.wrapper.main_wrapper.t_c > *',
+            'div.main_wrapper.t_c > *',
             elements => {
               const songElements = elements.filter(
                 element =>
