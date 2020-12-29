@@ -1,4 +1,3 @@
-import fs from 'fs'
 import puppeteer from 'puppeteer'
 import Promise from 'bluebird'
 import { TaskQueue } from 'cwait'
