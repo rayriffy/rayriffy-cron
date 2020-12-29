@@ -92,9 +92,7 @@ export const getScoresFromAllDifficulties = async (
           await page.goto(
             `https://maimaidx-eng.com/maimai-mobile/record/musicVersion/search/?version=${version.value}&diff=${difficulty.id}`
           )
-          await page.waitForSelector(
-            'body > div.wrapper.main_wrapper.t_c > div.screw_block'
-          )
+          await page.waitForSelector('footer_marquee')
 
           await scrollPageToBottom(page, 300, 200)
 
@@ -161,10 +159,10 @@ export const getScoresFromAllDifficulties = async (
             screenshot
           )
 
-          reporter.info(
-            `Screenshot has been captured for ${chalk.blue(
+          reporter.done(
+            `Screenshot has been captured for ${chalk.green(
               version.text
-            )} with ${chalk.blue(difficulty.name)} difficulty`
+            )} with ${chalk.green(difficulty.name)} difficulty`
           )
 
           throw e
