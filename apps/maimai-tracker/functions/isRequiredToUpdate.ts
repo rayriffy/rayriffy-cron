@@ -19,10 +19,10 @@ export const isRequiredToUpdate = (
   // if false included in compare, means value not match and need to be updated
   const compareResult = allKeysNeedToCompare
     .map(key => {
-      const sourceValue = get(sourceMusic, key)
-      const compareValue = get(compareWithMusic, key)
+      const sourceValue = get(sourceMusic, key, false)
+      const compareValue = get(compareWithMusic, key, false)
 
-      return isEqual(sourceValue, compareValue)
+      return sourceValue === compareValue
     })
     .includes(false)
 
