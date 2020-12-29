@@ -64,7 +64,10 @@ export const getSongsWithGenre = async (
       const page = await browser.newPage()
 
       await page.goto(
-        `https://maimaidx-eng.com/maimai-mobile/record/musicGenre/search/?genre=${genre.value}&diff=0`
+        `https://maimaidx-eng.com/maimai-mobile/record/musicGenre/search/?genre=${genre.value}&diff=0`,
+        {
+          timeout: 0,
+        }
       )
       await page.waitForSelector(
         'body > div.wrapper.main_wrapper.t_c > div.screw_block'

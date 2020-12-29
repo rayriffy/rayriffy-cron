@@ -90,7 +90,10 @@ export const getScoresFromAllDifficulties = async (
 
         try {
           await page.goto(
-            `https://maimaidx-eng.com/maimai-mobile/record/musicVersion/search/?version=${version.value}&diff=${difficulty.id}`
+            `https://maimaidx-eng.com/maimai-mobile/record/musicVersion/search/?version=${version.value}&diff=${difficulty.id}`,
+            {
+              timeout: 0,
+            }
           )
           await page.waitForSelector('div.main_wrapper')
 
