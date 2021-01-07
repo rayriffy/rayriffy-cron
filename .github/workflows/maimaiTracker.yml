@@ -2,6 +2,7 @@ name: maimai Tracker
 
 on:
   workflow_dispatch:
+  repository_dispatch:
   push:
     branches:
       - master
@@ -9,7 +10,7 @@ on:
     - cron: '0 4,6,8,10,12,14 * * *'
 
 jobs:
-  fetch:
+  rayriffy:
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v1
