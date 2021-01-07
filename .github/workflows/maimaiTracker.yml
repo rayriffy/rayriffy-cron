@@ -3,6 +3,7 @@ name: maimai Tracker
 on:
   workflow_dispatch:
   repository_dispatch:
+    types: [maimai-tracker]
   push:
     branches:
       - master
