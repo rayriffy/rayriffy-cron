@@ -15,6 +15,38 @@ export type GameVersion =
   | 'maimaiでらっくす'
   | 'maimaiでらっくす PLUS'
 
+export type Level =
+  | '1'
+  | '1+'
+  | '2'
+  | '2+'
+  | '3'
+  | '3+'
+  | '4'
+  | '4+'
+  | '5'
+  | '5+'
+  | '6'
+  | '6+'
+  | '7'
+  | '7+'
+  | '8'
+  | '8+'
+  | '9'
+  | '9+'
+  | '10'
+  | '10+'
+  | '11'
+  | '11+'
+  | '12'
+  | '12+'
+  | '13'
+  | '13+'
+  | '14'
+  | '14+'
+  | '15'
+  | '15+'
+
 export type GameGenre =
   | 'POPS & ANIME'
   | 'niconico ＆ VOCALOID™'
@@ -30,6 +62,7 @@ export interface Music {
 
   // Easy
   'EAS - Progress'?: number
+  'EAS - Level': Level
   'EAS - CL': boolean
   'EAS - 100%': boolean
   'EAS - FC': boolean
@@ -38,6 +71,7 @@ export interface Music {
 
   // Advanced
   'ADV - Progress'?: number
+  'ADV - Level': Level
   'ADV - CL': boolean
   'ADV - 100%': boolean
   'ADV - FC': boolean
@@ -46,6 +80,7 @@ export interface Music {
 
   // Expert
   'EXP - Progress'?: number
+  'EXP - Level': Level
   'EXP - CL': boolean
   'EXP - FC': boolean
   'EXP - 100%': boolean
@@ -54,6 +89,7 @@ export interface Music {
 
   // Master
   'MAS - Progress'?: number
+  'MAS - Level': Level
   'MAS - CL': boolean
   'MAS - FC': boolean
   'MAS - 100%': boolean
@@ -63,6 +99,7 @@ export interface Music {
   // Remaster
   isRemaster: boolean
   'REM - Progress'?: number
+  'REM - Level': Level
   'REM - CL': boolean
   'REM - FC': boolean
   'REM - 100%': boolean

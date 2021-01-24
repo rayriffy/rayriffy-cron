@@ -16,12 +16,13 @@ import { reporter } from '../utils/reporter'
 import { chalk } from '../utils/chalk'
 import { scroller } from '../utils/scroller'
 
-import { GameVersion } from '../@types/Music'
+import { GameVersion, Level } from '../@types/Music'
 
 export interface Score {
   song: string
   difficulty: Difficulty['code']
   version: GameVersion
+  level: Level
   playData: {
     progress: number
     clear: boolean
@@ -116,10 +117,14 @@ export const getScoresFromAllDifficulties = async (
                   'div.music_score_block.w_120'
                 )?.textContent
 
+                const level = element.querySelector('div.music_lv_block')
+                  ?.textContent
+
                 return {
                   song:
                     element.querySelector('div.music_name_block')
                       ?.textContent ?? '',
+                  level: level || '1',
                   record:
                     element.querySelector('div.music_score_block') === null ||
                     element.querySelector('div.music_score_block') === undefined
@@ -149,6 +154,7 @@ export const getScoresFromAllDifficulties = async (
               song: item.song,
               version: version.text,
               difficulty: difficulty.code,
+              level: item.level as Level,
               playData:
                 item.record === null
                   ? null

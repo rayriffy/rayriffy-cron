@@ -14,6 +14,7 @@ export const getDifficultyResult = (
   const formatObject = (score: Score) => {
     if (score.playData === null) {
       return fromEntries([
+        [`${targetDifficulty} - Level`, score.level],
         [`${targetDifficulty} - CL`, false],
         [`${targetDifficulty} - 100%`, false],
         [`${targetDifficulty} - FC`, false],
@@ -23,6 +24,7 @@ export const getDifficultyResult = (
     } else {
       return fromEntries([
         [`${targetDifficulty} - Progress`, score.playData.progress],
+        [`${targetDifficulty} - Level`, score.level],
         [`${targetDifficulty} - CL`, true],
         [`${targetDifficulty} - 100%`, score.playData.sss],
         [`${targetDifficulty} - FC`, score.playData.fc],
