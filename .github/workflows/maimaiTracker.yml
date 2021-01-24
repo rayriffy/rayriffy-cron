@@ -4,9 +4,6 @@ on:
   workflow_dispatch:
   repository_dispatch:
     types: [maimai-tracker]
-  push:
-    branches:
-      - master
   schedule:
     - cron: '0 4,6,8,10,12,14 * * *'
 
