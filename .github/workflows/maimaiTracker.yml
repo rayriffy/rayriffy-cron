@@ -57,3 +57,26 @@ jobs:
         with:
           name: data
           path: dist/*
+  tkoroshi:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: 'Init: Summon NodeJS'
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - name: 'Init: Install dependencies'
+        run: yarn install
+      - name: 'Execute: Sync scores with AirTable'
+        run: node --max_old_space_size=7168 -r ts-node/register apps/maimai-tracker/app.ts
+        env:
+          SEGA_ID: ${{ secrets.SEGA_ID_TKOROSHI }}
+          SEGA_PW: ${{ secrets.SEGA_PW_TKOROSHI }}
+          AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME_TKOROSHI }}
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: data
+          path: dist/*
