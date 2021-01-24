@@ -143,7 +143,7 @@ export const getScoresFromAllDifficulties = async (
 
           return prefetchedData.map(item => {
             if (item.record?.progress.toString().includes('.6969')) {
-              console.log('Found! > ', item.song)
+              console.log('Funny number! > ', item.song)
             }
             return {
               song: item.song,
