@@ -33,7 +33,7 @@ export const syncPlayerData = async (
   )
   if (targetPlayerData === undefined) {
     await airtableLimiter(() =>
-      airtableInstance.post('/Player data', {
+      airtableInstance.post('/Play data', {
         records: [
           {
             fields: processedPlayerData,
@@ -46,7 +46,7 @@ export const syncPlayerData = async (
     const targetId = targetPlayerData.id
 
     await airtableLimiter(() =>
-      airtableInstance.patch('/Player data', {
+      airtableInstance.patch('/Play data', {
         records: [
           {
             id: targetId,

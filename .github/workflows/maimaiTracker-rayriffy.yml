@@ -26,8 +26,10 @@ jobs:
           SEGA_PW: ${{ secrets.SEGA_PW_RAYRIFFY }}
           AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
           AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID_RAYRIFFY }}
+          AIRTABLE_BASE_DATA: ${{ secrets.AIRTABLE_BASE_DATA_RAYRIFFY }}
       - uses: actions/upload-artifact@v2
         if: failure()
         with:
           name: data
           path: dist/*
+
