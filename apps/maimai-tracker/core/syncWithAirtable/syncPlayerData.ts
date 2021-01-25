@@ -18,7 +18,7 @@ export const syncPlayerData = async (
    */
   reporter.info('Reading player data from remote')
   const remoteRawPlayerDatas = await getAllAirtableRecords<PlayerData>(
-    'Player data',
+    'Play data',
     airtableLimiter,
     airtableInstance
   )
