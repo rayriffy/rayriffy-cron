@@ -7,12 +7,14 @@ import { reporter } from '../../utils/reporter'
 import { syncScores } from './syncScores'
 import { syncPlayerData } from './syncPlayerData'
 import { syncAreas } from './syncAreas'
+import { getAirtableBaseId } from '../../functions/getAirtableBaseId'
 
 import { Music } from '../../@types/Music'
 import { PlayerData } from '../../@types/PlayerData'
 import { Area } from '../../@types/Area'
+import { AirtableBaseData } from '../../@types/AirtableBaseData'
 
-const { AIRTABLE_API_KEY, AIRTABLE_BASE_ID } = process.env
+const { AIRTABLE_API_KEY } = process.env
 
 export const syncWithAirtable = async (
   processedMusics: Music[],
@@ -24,17 +26,22 @@ export const syncWithAirtable = async (
     interval: 1000,
     rate: 5,
   })
-  const airtableInstance = axios.create({
-    baseURL: `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}`,
-    headers: {
-      Authorization: `Bearer ${AIRTABLE_API_KEY}`,
-    },
-  })
+  const airtableInstance = (id: keyof AirtableBaseData) =>
+    axios.create({
+      baseURL: `https://api.airtable.com/v0/${getAirtableBaseId(id)}`,
+      headers: {
+        Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+      },
+    })
 
   await Promise.all([
-    syncScores(processedMusics, airtableLimiter, airtableInstance),
-    syncPlayerData(processedPlayerData, airtableLimiter, airtableInstance),
-    syncAreas(processedAreas, airtableLimiter, airtableInstance),
+    syncScores(processedMusics, airtableLimiter, airtableInstance('score')),
+    syncPlayerData(
+      processedPlayerData,
+      airtableLimiter,
+      airtableInstance('playData')
+    ),
+    syncAreas(processedAreas, airtableLimiter, airtableInstance('area')),
   ])
 
   reporter.done('Remote table synced!')
