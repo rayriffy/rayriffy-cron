@@ -7,6 +7,7 @@ import { Browser } from 'puppeteer'
 import { reporter } from '../utils/reporter'
 import { chalk } from '../utils/chalk'
 import { scroller } from '../utils/scroller'
+import { createPage } from '../functions/createPage'
 
 import { GameGenre } from '../@types/Music'
 
@@ -24,7 +25,7 @@ export const getSongsWithGenre = async (
   browser: Browser,
   browserQueue: TaskQueue<typeof Promise>
 ) => {
-  const page = await browser.newPage()
+  const page = await createPage(browser, browserQueue)()
 
   reporter.info('Listing all possible genres')
 

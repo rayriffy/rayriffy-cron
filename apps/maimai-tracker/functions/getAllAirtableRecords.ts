@@ -1,24 +1,20 @@
 import { AxiosInstance } from 'axios'
 import { flatMap } from 'lodash'
 
+import { ListResponse } from '../@types/AirtableListResponse'
 import { AirtableRecord } from '../@types/AirtableRecord'
-import { Music } from '../@types/Music'
 
-interface ListResponse {
-  records: AirtableRecord<Partial<Music>>[]
-  offset?: string
-}
-
-export const getAllAirtableRecords = async (
+export const getAllAirtableRecords = async <P>(
+  tableName: string,
   limiter: <T>(fn: () => Promise<T>) => Promise<T>,
   airtableInstance: AxiosInstance
 ) => {
-  let queue: AirtableRecord<Partial<Music>>[][] = []
+  let queue: AirtableRecord<Partial<P>>[][] = []
   let offset: string | undefined = undefined
 
   while (true) {
     const response = await limiter(() =>
-      airtableInstance.get<ListResponse>('/', {
+      airtableInstance.get<ListResponse<Partial<P>>>(`/${tableName}`, {
         params:
           offset === undefined
             ? undefined

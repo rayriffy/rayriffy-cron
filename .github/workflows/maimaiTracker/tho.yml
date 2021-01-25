@@ -1,0 +1,32 @@
+name: maimai Tracker - tho
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [maimai-tracker]
+  schedule:
+    - cron: '0 4,6,8,10,12,14 * * *'
+
+jobs:
+  trackData:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: 'Init: Summon NodeJS'
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - name: 'Init: Install dependencies'
+        run: yarn install
+      - name: 'Execute: Sync scores with AirTable'
+        run: node --max_old_space_size=7168 -r ts-node/register apps/maimai-tracker/app.ts
+        env:
+          SEGA_ID: ${{ secrets.SEGA_ID_THO }}
+          SEGA_PW: ${{ secrets.SEGA_PW_THO }}
+          AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID_THO }}
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: data
+          path: dist/*

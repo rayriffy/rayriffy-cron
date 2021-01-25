@@ -1,6 +1,8 @@
 import Promise from 'bluebird'
+import { TaskQueue } from 'cwait'
 
 import { Browser } from 'puppeteer'
+import { createPage } from '../functions/createPage'
 
 import { reporter } from '../utils/reporter'
 
@@ -8,11 +10,14 @@ const { SEGA_ID, SEGA_PW } = process.env
 
 const wait = (time: number) => new Promise(res => setTimeout(() => res(), time))
 
-export const signIntoSEGA = async (browser: Browser) => {
+export const signIntoSEGA = async (
+  browser: Browser,
+  browserQueue: TaskQueue<typeof Promise>
+) => {
   reporter.info('Signing into maimai NET')
 
   // entrypoint
-  const page = await browser.newPage()
+  const page = await createPage(browser, browserQueue)()
   await page.goto('https://maimaidx-eng.com/')
 
   try {

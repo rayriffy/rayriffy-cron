@@ -55,6 +55,15 @@ export type GameGenre =
   | 'maimai'
   | 'オンゲキ＆CHUNITHM'
 
+export type DifficultyField =
+  | 'Progress'
+  | 'Level'
+  | 'CL'
+  | '100%'
+  | 'FC'
+  | 'AP'
+  | 'FDX'
+
 export interface Music {
   Name: string
   Version: GameVersion

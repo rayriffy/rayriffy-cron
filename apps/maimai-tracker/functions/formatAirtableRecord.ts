@@ -1,14 +1,12 @@
-import { formatMusic } from './formatMusic'
-
 import { AirtableRecord } from '../@types/AirtableRecord'
-import { Music } from '../@types/Music'
 
-export const formatAirtableRecord = (
-  record: AirtableRecord<Partial<Music>>
-): AirtableRecord<Music> => {
+export const formatAirtableRecord = <T = unknown>(
+  record: AirtableRecord<Partial<T>>,
+  normalizeFunction: (input: Partial<T>) => T
+): AirtableRecord<T> => {
   const result = {
     ...record,
-    fields: formatMusic(record.fields),
+    fields: normalizeFunction(record.fields),
   }
 
   return result
