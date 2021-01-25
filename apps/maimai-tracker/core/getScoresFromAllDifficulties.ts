@@ -17,6 +17,7 @@ import { chalk } from '../utils/chalk'
 import { scroller } from '../utils/scroller'
 
 import { GameVersion, Level } from '../@types/Music'
+import { createPage } from '../functions/createPage'
 
 export interface Score {
   song: string
@@ -42,7 +43,7 @@ export const getScoresFromAllDifficulties = async (
   browser: Browser,
   browserQueue: TaskQueue<typeof Promise>
 ) => {
-  const page = await browser.newPage()
+  const page = await createPage(browser, browserQueue)()
 
   reporter.info('Listing all maimai versions')
 

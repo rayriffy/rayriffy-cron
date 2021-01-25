@@ -9,12 +9,14 @@ import { signIntoSEGA } from './core/signIntoSEGA'
 import { getScoresFromAllDifficulties } from './core/getScoresFromAllDifficulties'
 import { remoteScoresToAirtableFormat } from './core/remoteScoresToAirtableFormat'
 import { syncWithAirtable } from './core/syncWithAirtable'
+import { getPlayData } from './core/getPlayData'
+import { getAreas } from './core/getAreas'
 
 // app entrypoint
 ;(async () => {
   // open browser
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     defaultViewport: {
       width: 1280,
       height: 720,
@@ -24,8 +26,15 @@ import { syncWithAirtable } from './core/syncWithAirtable'
 
   try {
     // fetch data from you, SEGA_ID and SEGA_PW required
-    await signIntoSEGA(browser)
-    const [songsWithGenre, scoresFromAllDifficulties] = await Promise.all([
+    await signIntoSEGA(browser, browserQueue)
+    const [
+      areas,
+      playData,
+      songsWithGenre,
+      scoresFromAllDifficulties,
+    ] = await Promise.all([
+      getAreas(browser, browserQueue),
+      getPlayData(browser, browserQueue),
       getSongsWithGenre(browser, browserQueue),
       getScoresFromAllDifficulties(browser, browserQueue),
     ])
@@ -37,7 +46,7 @@ import { syncWithAirtable } from './core/syncWithAirtable'
     )
 
     // sync with airtable
-    await syncWithAirtable(processedScores)
+    await syncWithAirtable(processedScores, playData, areas)
   } catch (e) {
     reporter.fail('crash!')
 
