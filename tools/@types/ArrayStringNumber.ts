@@ -1,0 +1,1 @@
+export type ArrayStringNumber = [string]

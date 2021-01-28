@@ -11,8 +11,10 @@ import { remoteScoresToAirtableFormat } from './core/remoteScoresToAirtableForma
 import { syncWithAirtable } from './core/syncWithAirtable'
 import { getPlayData } from './core/getPlayData'
 import { getAreas } from './core/getAreas'
+import { getTitles } from './core/getTitles'
 
 // app entrypoint
+import { remoteTitleToAirtableFormat } from './core/remoteTitleToAirtableFormat'
 ;(async () => {
   // open browser
   const browser = await puppeteer.launch({
@@ -32,11 +34,13 @@ import { getAreas } from './core/getAreas'
       playData,
       songsWithGenre,
       scoresFromAllDifficulties,
+      titles,
     ] = await Promise.all([
       getAreas(browser, browserQueue),
       getPlayData(browser, browserQueue),
       getSongsWithGenre(browser, browserQueue),
       getScoresFromAllDifficulties(browser, browserQueue),
+      getTitles(browser, browserQueue),
     ])
 
     // process remote data into airtable fields
@@ -45,8 +49,11 @@ import { getAreas } from './core/getAreas'
       songsWithGenre
     )
 
+    // process title to airtable
+    // const processedTitles = remoteTitleToAirtableFormat(titles)
+
     // sync with airtable
-    await syncWithAirtable(processedScores, playData, areas)
+    await syncWithAirtable(processedScores, playData, areas, [])
   } catch (e) {
     reporter.fail('crash!')
 

@@ -7,7 +7,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "exec:maimaiTracker": "ts-node --project tsconfig.json apps/maimai-tracker/app.ts"
+    "exec:maimaiTracker": "ts-node --project tsconfig.json apps/maimai-tracker/app.ts",
+    "exec:exportSinmaiData": "ts-node --project tsconfig.json tools/exportSinmaiData.ts"
   },
   "husky": {
     "hooks": {
@@ -31,7 +32,8 @@
     "object.fromentries": "^2.0.3",
     "p-ratelimit": "^1.0.0",
     "puppeteer": "^5.5.0",
-    "puppeteer-autoscroll-down": "0.1.5"
+    "puppeteer-autoscroll-down": "0.1.5",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
@@ -43,6 +45,7 @@
     "@types/node": "^14.14.16",
     "@types/object.fromentries": "^2.0.0",
     "@types/puppeteer": "^5.4.2",
+    "@types/xml2js": "^0.4.8",
     "husky": "^4.3.6",
     "lint-staged": "^10.5.3",
     "prettier": "^2.2.1",

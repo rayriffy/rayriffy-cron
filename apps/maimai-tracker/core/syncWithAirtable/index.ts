@@ -7,19 +7,22 @@ import { reporter } from '../../utils/reporter'
 import { syncScores } from './syncScores'
 import { syncPlayerData } from './syncPlayerData'
 import { syncAreas } from './syncAreas'
+import { syncTitle } from './syncTitle'
 import { getAirtableBaseId } from '../../functions/getAirtableBaseId'
 
 import { Music } from '../../@types/Music'
 import { PlayerData } from '../../@types/PlayerData'
 import { Area } from '../../@types/Area'
 import { AirtableBaseData } from '../../@types/AirtableBaseData'
+import { Title } from '../../@types/Title'
 
 const { AIRTABLE_API_KEY } = process.env
 
 export const syncWithAirtable = async (
   processedMusics: Music[],
   processedPlayerData: PlayerData,
-  processedAreas: Area[]
+  processedAreas: Area[],
+  processedTitles: Title[]
 ) => {
   // get all airtable records
   const airtableLimiter = pRateLimit({
@@ -42,6 +45,7 @@ export const syncWithAirtable = async (
       airtableInstance('playData')
     ),
     syncAreas(processedAreas, airtableLimiter, airtableInstance('area')),
+    // syncTitle(processedTitles, airtableLimiter, airtableInstance('title')),
   ])
 
   reporter.done('Remote table synced!')

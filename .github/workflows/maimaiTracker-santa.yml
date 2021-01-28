@@ -24,8 +24,8 @@ jobs:
           SEGA_ID: ${{ secrets.SEGA_ID_SANTA }}
           SEGA_PW: ${{ secrets.SEGA_PW_SANTA }}
           AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
-          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID_SANTA }}
           AIRTABLE_BASE_DATA: ${{ secrets.AIRTABLE_BASE_DATA_SANTA }}
+          RAYRIFFY_CRON_SECRET: ${{ secrets.RAYRIFFY_CRON_SECRET }}
       - uses: actions/upload-artifact@v2
         if: failure()
         with:
