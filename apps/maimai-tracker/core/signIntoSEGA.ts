@@ -1,5 +1,7 @@
 import Promise from 'bluebird'
 import { TaskQueue } from 'cwait'
+import fs from 'fs'
+import chalk from 'chalk'
 
 import { Browser } from 'puppeteer'
 import { createPage } from '../functions/createPage'
@@ -47,6 +49,21 @@ export const signIntoSEGA = async (
 
     reporter.done('Signed in!')
   } catch (e) {
+    const screenshot = await page.screenshot({
+      type: 'jpeg',
+      fullPage: true,
+    })
+
+    if (!fs.existsSync('dist')) {
+      fs.mkdirSync('dist')
+    }
+
+    fs.writeFileSync(`dist/signIntoSEGA.jpg`, screenshot)
+
+    reporter.done(
+      `Screenshot has been captured for ${chalk.green('signIntoSEGA')}`
+    )
+
     const isMaintenance = await page.$eval(
       'body > div:nth-child(3) > div > div.sub_info',
       element => (element?.textContent ?? '').includes('under maintenance')
