@@ -41,10 +41,10 @@ export const signIntoSEGA = async (
     await page.waitForSelector('#btnSubmit')
     await page.click('#btnSubmit')
 
+    reporter.info('Signing in...')
+
     // wait until profile picture to show
-    await page.waitForSelector(
-      'body > div.wrapper.main_wrapper.t_c > div.see_through_block.m_15.m_t_0.p_10.p_r.t_l.f_0 > div.basic_block.p_10.p_b_5.f_0 > img'
-    )
+    await page.waitForSelector('div.trophy_inner_block')
     await page.close()
 
     reporter.done('Signed in!')
