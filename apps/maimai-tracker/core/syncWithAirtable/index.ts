@@ -37,6 +37,7 @@ export const syncWithAirtable = async (
       },
     })
 
+  try {
   await Promise.all([
     syncScores(processedMusics, airtableLimiter, airtableInstance('score')),
     syncPlayerData(
@@ -47,6 +48,12 @@ export const syncWithAirtable = async (
     syncAreas(processedAreas, airtableLimiter, airtableInstance('area')),
     // syncTitle(processedTitles, airtableLimiter, airtableInstance('title')),
   ])
+  } catch (e) {
+    reporter.fail("Failed to sync data with following message")
+    console.log(e.response.data)
+
+    throw new Error("sync-fail")
+  }
 
   reporter.done('Remote table synced!')
 }
