@@ -1,3 +1,5 @@
+import { imageFlagCompare } from './imageFlagCompare'
+
 export const isPlayAP = (imageFlags: (string | null)[]): boolean => {
   const acceptUrls = [
     'https://maimaidx-eng.com/maimai-mobile/img/music_icon_app.png',
