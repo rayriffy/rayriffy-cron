@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { uniq } from 'lodash'
 
 import { pRateLimit } from 'p-ratelimit'
 
@@ -24,6 +25,7 @@ export const syncWithAirtable = async (
   processedAreas: Area[],
   processedTitles: Title[]
 ) => {
+  console.log(uniq(processedMusics.map(o => o.Genre)))
   // get all airtable records
   const airtableLimiter = pRateLimit({
     interval: 1000,
@@ -37,16 +39,23 @@ export const syncWithAirtable = async (
       },
     })
 
-  await Promise.all([
-    syncScores(processedMusics, airtableLimiter, airtableInstance('score')),
-    syncPlayerData(
-      processedPlayerData,
-      airtableLimiter,
-      airtableInstance('playData')
-    ),
-    syncAreas(processedAreas, airtableLimiter, airtableInstance('area')),
-    // syncTitle(processedTitles, airtableLimiter, airtableInstance('title')),
-  ])
+  try {
+    await Promise.all([
+      syncScores(processedMusics, airtableLimiter, airtableInstance('score')),
+      syncPlayerData(
+        processedPlayerData,
+        airtableLimiter,
+        airtableInstance('playData')
+      ),
+      syncAreas(processedAreas, airtableLimiter, airtableInstance('area')),
+      // syncTitle(processedTitles, airtableLimiter, airtableInstance('title')),
+    ])
+  } catch (e) {
+    reporter.fail('Failed to sync data with following message')
+    console.log(e.response.data)
+
+    throw new Error('sync-fail')
+  }
 
   reporter.done('Remote table synced!')
 }
