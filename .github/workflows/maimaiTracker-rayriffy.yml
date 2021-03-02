@@ -13,8 +13,6 @@ jobs:
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v1
-      - run: echo ${{ github.ref }}
-      - run: echo ${{ github.event_name }}
       - name: 'Init: Summon NodeJS'
         uses: actions/setup-node@v1
         with:
