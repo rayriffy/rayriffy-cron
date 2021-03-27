@@ -5,7 +5,7 @@ on:
   repository_dispatch:
     types: [maimai-tracker]
   schedule:
-    - cron: '0 4,6,8,10,12,14 * * *'
+    - cron: '0 4,6,8,10,12,14,15 * * *'
   push:
 
 jobs:
