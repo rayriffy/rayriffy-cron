@@ -39,9 +39,7 @@ export const getPlayData = async (
 
       return {
         'Deluxe rating': Number(
-          element.querySelector(
-            'div.basic_block.p_10.p_b_5.f_0 > div.p_l_10.f_l > div:nth-child(2) > div.f_r.t_r.f_0 > div.p_r.p_3 > div'
-          )?.textContent
+          element.querySelector('div.rating_block')?.textContent
         ),
         'Play count': Number(
           ((
