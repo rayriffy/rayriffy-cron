@@ -10,7 +10,7 @@ This script requires 4 environment variables **(PUT THOSE IN SECRETS!!!)**
 - `SEGA_PW`: SEGA ID password
 - `AIRTABLE_API_KEY`: Your AirTable API Key
 - `AIRTABLE_BASE_DATA`: JSON string contains base id of each type of data tracking consists of following
-```
+```json
 {
   "score": "#BASE ID HERE#",
   "playData": "#BASE ID HERE#",
