@@ -4,17 +4,33 @@ This script is used for tracking my play progress, then sync and visualize them 
 
 ## Requirements
 
-This script requires 3 environment variables **(PUT THOSE IN SECRETS!!!)**
+This script requires 4 environment variables **(PUT THOSE IN SECRETS!!!)**
 
 - `SEGA_ID`: SEGA ID username
 - `SEGA_PW`: SEGA ID password
 - `AIRTABLE_API_KEY`: Your AirTable API Key
-- `AIRTABLE_BASE_ID`: You base id
-- `AIRTABLE_TABLE_NAME`: Your table name in your base (Required to be URI Encoded first! [here's how](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI))
+- `AIRTABLE_BASE_DATA`: JSON string contains base id of each type of data tracking consists of following
+```
+{
+  "score": "#BASE ID HERE#",
+  "playData": "#BASE ID HERE#",
+  "area": "#BASE ID HERE#",
+  "title": "#BASE ID HERE#",
+  "namePlate": "#BASE ID HERE#",
+  "icon": "#BASE ID HERE#",
+  "tourMember": "#BASE ID HERE#"
+}
 
-You also reuired to create your own AirTable base as well, look into **Raw Data** demo to replicate all required fields **(or you can just copy it)**.
+```
+
+You also reuired to create your own AirTable base as well, copy all base from [demo](#Demo) into your own workspace as well.
 
 ## Demo
 
-- [AirTable - Raw data](https://airtable.com/shrz0hbF0QJ506XG4)
-- [AirTable - Groupped](https://airtable.com/shrTltMMYvjjin7Tv)
+- [Score](https://airtable.com/shrCYcwIc4S2z1wOb)
+- [Play data](https://airtable.com/shrIWvrsyMuWzvIWe)
+- [Area](https://airtable.com/shrr9SQCzmYj4Sxyc)
+- [Title](https://airtable.com/shrCYxwaG9sXCorzh)
+- [Name plate](https://airtable.com/shrEmc3OngAOrbqfp)
+- [Icon](https://airtable.com/shr7a2krlgm8uvOI8)
+- [Tour member](https://airtable.com/shrS02nOhT0SvWWzt)
